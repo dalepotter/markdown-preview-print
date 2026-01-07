@@ -6,6 +6,33 @@
     <title>Markdown to Kindle</title>
 </head>
 <body>
-    <!-- App will be initialized via webpack -->
+    <!-- Editor Mode -->
+    <div class="editor-mode" id="editor-mode">
+        <div class="editor-panel">
+            <div class="panel-header">
+                <span>Markdown Input</span>
+                <button class="secondary" id="load-sample-btn" disabled>Load Sample</button>
+            </div>
+            <textarea id="markdown-input" placeholder="Type or paste your markdown here..."></textarea>
+        </div>
+        <div class="editor-panel">
+            <div class="panel-header">
+                <span>Preview</span>
+                <div class="button-group">
+                    <button id="print-view-btn" disabled>Print View</button>
+                    <button class="secondary" id="clear-btn" disabled>Clear</button>
+                </div>
+            </div>
+            <div id="preview" class="content"></div>
+        </div>
+    </div>
+
+    <!-- Print Mode (for Kindle) -->
+    <div class="print-mode" id="print-mode">
+        <div id="print-content" class="content"></div>
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center;">
+            <button id="editor-view-btn" disabled>Back to Editor</button>
+        </div>
+    </div>
 </body>
 </html>

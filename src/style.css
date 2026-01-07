@@ -1,0 +1,220 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Editor mode styles */
+.editor-mode {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+    gap: 1px;
+    background: #e0e0e0;
+}
+
+.editor-panel {
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-header {
+    background: #f5f5f5;
+    padding: 12px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#markdown-input {
+    flex: 1;
+    border: none;
+    padding: 20px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+}
+
+#preview {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.button-group {
+    display: flex;
+    gap: 8px;
+}
+
+button {
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+button.secondary {
+    background: #6c757d;
+}
+
+button.secondary:hover {
+    background: #545b62;
+}
+
+/* Print/Kindle mode styles */
+.print-mode {
+    display: none;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Content styling for rendered markdown */
+.content h1, .content h2, .content h3,
+.content h4, .content h5, .content h6 {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.content h1 {
+    font-size: 2em;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 8px;
+}
+
+.content h2 {
+    font-size: 1.5em;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 6px;
+}
+
+.content h3 { font-size: 1.25em; }
+.content h4 { font-size: 1.1em; }
+.content h5 { font-size: 1em; }
+.content h6 { font-size: 0.9em; }
+
+.content p {
+    margin-bottom: 16px;
+}
+
+.content ul, .content ol {
+    margin-bottom: 16px;
+    padding-left: 2em;
+}
+
+.content li {
+    margin-bottom: 4px;
+}
+
+.content code {
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+}
+
+.content pre {
+    background: #f5f5f5;
+    padding: 16px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+}
+
+.content pre code {
+    background: none;
+    padding: 0;
+}
+
+.content blockquote {
+    border-left: 4px solid #e0e0e0;
+    padding-left: 16px;
+    margin: 16px 0;
+    color: #666;
+    font-style: italic;
+}
+
+.content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.content th, .content td {
+    border: 1px solid #e0e0e0;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.content th {
+    background: #f5f5f5;
+    font-weight: 600;
+}
+
+.content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.content hr {
+    border: none;
+    border-top: 2px solid #e0e0e0;
+    margin: 24px 0;
+}
+
+.content a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.content a:hover {
+    text-decoration: underline;
+}
+
+/* Print-specific styles */
+@media print {
+    .editor-mode {
+        display: none !important;
+    }
+
+    .print-mode {
+        display: block !important;
+    }
+}
+
+/* When in print view mode */
+body.print-view .editor-mode {
+    display: none;
+}
+
+body.print-view .print-mode {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .editor-mode {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+}
