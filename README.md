@@ -1,7 +1,7 @@
 # Markdown to Kindle
 
-[![Run Tests](https://github.com/dalepotter/markdown-to-kindle/actions/workflows/test.yml/badge.svg)](https://github.com/dalepotter/markdown-to-kindle/actions/workflows/test.yml)
-[![Deploy to GitHub Pages](https://github.com/dalepotter/markdown-to-kindle/actions/workflows/deploy.yml/badge.svg)](https://github.com/dalepotter/markdown-to-kindle/actions/workflows/deploy.yml)
+[![Run Tests](https://github.com/dalepotter/markdown-preview-print/actions/workflows/test.yml/badge.svg)](https://github.com/dalepotter/markdown-preview-print/actions/workflows/test.yml)
+[![Deploy to GitHub Pages](https://github.com/dalepotter/markdown-preview-print/actions/workflows/deploy.yml/badge.svg)](https://github.com/dalepotter/markdown-preview-print/actions/workflows/deploy.yml)
 
 A simple markdown editor with Kindle-optimised print view. Write markdown in your browser, preview in real-time, and send to your Kindle using the [Push to Kindle browser extension](https://help.fivefilters.org/push-to-kindle/).
 
