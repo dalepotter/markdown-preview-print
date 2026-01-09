@@ -5,6 +5,11 @@
 
 A simple markdown editor with Kindle-optimised print view. Write markdown in your browser, preview in real-time, and send to your Kindle using the [Push to Kindle browser extension](https://help.fivefilters.org/push-to-kindle/).
 
+## Features
+
+- **Live preview**: See your formatted content as you type
+- **Split-pane editor**: Write markdown on the left, see rendered output on the right
+
 ## Setup
 
 1. Clone the repository:
