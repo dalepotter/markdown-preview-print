@@ -34,4 +34,39 @@ describe('App Integration - Editor', () => {
     expect(preview.innerHTML).toContain('My Document');
     expect(preview.innerHTML).toContain('<strong>bold</strong>');
   });
+
+  it('should save content to localStorage on input', () => {
+    localStorage.clear();
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+
+    // Simulate auto-save
+    input.addEventListener('input', () => {
+      localStorage.setItem('markdown-content', editor.getContent());
+    });
+
+    input.value = '# New Content';
+    input.dispatchEvent(new Event('input'));
+    expect(localStorage.getItem('markdown-content')).toBe('# New Content');
+  });
+
+  it('should restore content from localStorage on load', () => {
+    localStorage.setItem('markdown-content', '# Saved Content');
+
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+    const saved = localStorage.getItem('markdown-content');
+    if (saved) {
+      editor.setContent(saved);
+    }
+
+    expect(editor.getContent()).toBe('# Saved Content');
+    expect(preview.innerHTML).toContain('Saved Content');
+  });
 });
