@@ -1,6 +1,7 @@
 import './style.css';
 import { MarkdownEditor } from './editor/markdownEditor.js';
 import { saveMarkdown, loadMarkdown } from './app/state.js';
+import { getSampleContent } from './utils/sampleContent.js';
 
 // Initialise editor when DOM is ready
 window.addEventListener('load', () => {
@@ -10,10 +11,14 @@ window.addEventListener('load', () => {
 
   const editor = new MarkdownEditor(markdownInput, preview, printContent);
 
-  // Load saved content
+  // Load saved content or sample
   const saved = loadMarkdown();
   if (saved) {
     editor.setContent(saved);
+  } else {
+    const sample = getSampleContent();
+    editor.setContent(sample);
+    saveMarkdown(sample);
   }
 
   // Auto-save on input

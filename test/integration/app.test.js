@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { MarkdownEditor } from '../../src/editor/markdownEditor.js';
+import { getSampleContent } from '../../src/utils/sampleContent.js';
 
 describe('App Integration - Editor', () => {
   beforeEach(() => {
@@ -68,5 +69,43 @@ describe('App Integration - Editor', () => {
 
     expect(editor.getContent()).toBe('# Saved Content');
     expect(preview.innerHTML).toContain('Saved Content');
+  });
+
+  it('should load sample content on first visit', () => {
+    localStorage.clear();
+
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+
+    // Simulate first visit
+    const saved = localStorage.getItem('markdown-content');
+    if (!saved) {
+      const sample = getSampleContent();
+      editor.setContent(sample);
+    }
+
+    expect(editor.getContent()).toContain('Welcome to Markdown to Kindle');
+    expect(preview.innerHTML).toContain('Welcome to Markdown to Kindle');
+  });
+
+  it('should load saved content instead of sample on return visit', () => {
+    localStorage.setItem('markdown-content', '# My Custom Content');
+
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+
+    const saved = localStorage.getItem('markdown-content');
+    if (saved) {
+      editor.setContent(saved);
+    }
+
+    expect(editor.getContent()).toBe('# My Custom Content');
+    expect(editor.getContent()).not.toContain('Welcome to Markdown to Kindle');
   });
 });
