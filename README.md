@@ -12,7 +12,7 @@ A simple markdown editor with Kindle-optimised print view. Write markdown in you
 - **Live preview**: See your formatted content as you type
 - **Split-pane editor**: Write markdown on the left, see rendered output on the right
 - **Auto-save**: Content automatically saved to localStorage - never lose your work
-- **Sample content**: Helpful example markdown loaded on first visit
+- **Sample content**: Helpful example markdown loaded on first visit or by clicking "Load Sample"
 
 ## Setup
 

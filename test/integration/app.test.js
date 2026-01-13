@@ -108,4 +108,31 @@ describe('App Integration - Editor', () => {
     expect(editor.getContent()).toBe('# My Custom Content');
     expect(editor.getContent()).not.toContain('Welcome to Markdown to Kindle');
   });
+
+  it('should load sample when button is clicked', () => {
+    localStorage.clear();
+
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+    const loadSampleBtn = document.getElementById('load-sample-btn');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+
+    // Clear any content
+    editor.clear();
+    expect(editor.getContent()).toBe('');
+
+    // Wire up button
+    loadSampleBtn.addEventListener('click', () => {
+      const sample = getSampleContent();
+      editor.setContent(sample);
+    });
+
+    // Click button
+    loadSampleBtn.click();
+
+    expect(editor.getContent()).toContain('Welcome to Markdown to Kindle');
+    expect(preview.innerHTML).toContain('Welcome to Markdown to Kindle');
+  });
 });

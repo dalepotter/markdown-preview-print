@@ -8,6 +8,7 @@ window.addEventListener('load', () => {
   const markdownInput = document.getElementById('markdown-input');
   const preview = document.getElementById('preview');
   const printContent = document.getElementById('print-content');
+  const loadSampleBtn = document.getElementById('load-sample-btn');
 
   const editor = new MarkdownEditor(markdownInput, preview, printContent);
 
@@ -16,15 +17,22 @@ window.addEventListener('load', () => {
   if (saved) {
     editor.setContent(saved);
   } else {
-    const sample = getSampleContent();
-    editor.setContent(sample);
-    saveMarkdown(sample);
+    loadSample();
   }
 
   // Auto-save on input
   markdownInput.addEventListener('input', () => {
     saveMarkdown(editor.getContent());
   });
+
+  // Load sample button
+  loadSampleBtn.addEventListener('click', loadSample);
+
+  function loadSample() {
+    const sample = getSampleContent();
+    editor.setContent(sample);
+    saveMarkdown(sample);
+  }
 
   console.log('Markdown to Kindle loaded');
 });
