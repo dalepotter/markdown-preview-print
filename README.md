@@ -13,6 +13,14 @@ A simple markdown editor with Kindle-optimised print view. Write markdown in you
 - **Split-pane editor**: Write markdown on the left, see rendered output on the right
 - **Auto-save**: Content automatically saved to localStorage - never lose your work
 - **Sample content**: Helpful example markdown loaded on first visit or by clicking "Load Sample"
+- **Kindle-optimised print view**: Clean, readable layout perfect for e-readers
+
+## How to Send to Kindle
+
+1. Write or paste your markdown content in the editor
+2. Click "Print View" to switch to the print-optimised layout
+3. Install the [Push to Kindle](https://help.fivefilters.org/push-to-kindle/) browser extension
+4. Click the extension icon to send the page to your Kindle
 
 ## Setup
 

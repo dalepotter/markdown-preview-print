@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { MarkdownEditor } from '../../src/editor/markdownEditor.js';
+import { ViewSwitcher } from '../../src/editor/viewSwitcher.js';
 import { getSampleContent } from '../../src/utils/sampleContent.js';
 
 describe('App Integration - Editor', () => {
@@ -134,5 +135,23 @@ describe('App Integration - Editor', () => {
 
     expect(editor.getContent()).toContain('Welcome to Markdown to Kindle');
     expect(preview.innerHTML).toContain('Welcome to Markdown to Kindle');
+  });
+
+  it('should switch to print view when button is clicked', () => {
+    const printViewBtn = document.getElementById('print-view-btn');
+    const viewSwitcher = new ViewSwitcher();
+
+    expect(viewSwitcher.getCurrentView()).toBe('editor');
+
+    // Wire up button
+    printViewBtn.addEventListener('click', () => {
+      viewSwitcher.switchToPrintView();
+    });
+
+    // Click button
+    printViewBtn.click();
+
+    expect(viewSwitcher.getCurrentView()).toBe('print');
+    expect(document.body.classList.contains('print-view')).toBe(true);
   });
 });

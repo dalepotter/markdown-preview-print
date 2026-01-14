@@ -1,5 +1,6 @@
 import './style.css';
 import { MarkdownEditor } from './editor/markdownEditor.js';
+import { ViewSwitcher } from './editor/viewSwitcher.js';
 import { saveMarkdown, loadMarkdown } from './app/state.js';
 import { getSampleContent } from './utils/sampleContent.js';
 
@@ -9,8 +10,10 @@ window.addEventListener('load', () => {
   const preview = document.getElementById('preview');
   const printContent = document.getElementById('print-content');
   const loadSampleBtn = document.getElementById('load-sample-btn');
+  const printViewBtn = document.getElementById('print-view-btn');
 
   const editor = new MarkdownEditor(markdownInput, preview, printContent);
+  const viewSwitcher = new ViewSwitcher();
 
   // Load saved content or sample
   const saved = loadMarkdown();
@@ -27,6 +30,11 @@ window.addEventListener('load', () => {
 
   // Load sample button
   loadSampleBtn.addEventListener('click', loadSample);
+
+  // Print view button
+  printViewBtn.addEventListener('click', () => {
+    viewSwitcher.switchToPrintView();
+  });
 
   function loadSample() {
     const sample = getSampleContent();
