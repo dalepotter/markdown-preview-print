@@ -11,6 +11,7 @@ window.addEventListener('load', () => {
   const printContent = document.getElementById('print-content');
   const loadSampleBtn = document.getElementById('load-sample-btn');
   const printViewBtn = document.getElementById('print-view-btn');
+  const editorViewBtn = document.getElementById('editor-view-btn');
 
   const editor = new MarkdownEditor(markdownInput, preview, printContent);
   const viewSwitcher = new ViewSwitcher();
@@ -31,9 +32,13 @@ window.addEventListener('load', () => {
   // Load sample button
   loadSampleBtn.addEventListener('click', loadSample);
 
-  // Print view button
+  // View switching buttons
   printViewBtn.addEventListener('click', () => {
     viewSwitcher.switchToPrintView();
+  });
+
+  editorViewBtn.addEventListener('click', () => {
+    viewSwitcher.switchToEditorView();
   });
 
   function loadSample() {

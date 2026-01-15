@@ -154,4 +154,34 @@ describe('App Integration - Editor', () => {
     expect(viewSwitcher.getCurrentView()).toBe('print');
     expect(document.body.classList.contains('print-view')).toBe(true);
   });
+
+  it('should navigate between editor and print views', () => {
+    const printViewBtn = document.getElementById('print-view-btn');
+    const editorViewBtn = document.getElementById('editor-view-btn');
+    const viewSwitcher = new ViewSwitcher();
+
+    // Start in editor
+    expect(viewSwitcher.getCurrentView()).toBe('editor');
+
+    // Wire up buttons
+    printViewBtn.addEventListener('click', () => {
+      viewSwitcher.switchToPrintView();
+    });
+
+    editorViewBtn.addEventListener('click', () => {
+      viewSwitcher.switchToEditorView();
+    });
+
+    // Go to print view
+    printViewBtn.click();
+    expect(viewSwitcher.getCurrentView()).toBe('print');
+
+    // Go back to editor
+    editorViewBtn.click();
+    expect(viewSwitcher.getCurrentView()).toBe('editor');
+
+    // Navigate again
+    printViewBtn.click();
+    expect(viewSwitcher.getCurrentView()).toBe('print');
+  });
 });
