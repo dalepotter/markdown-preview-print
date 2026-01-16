@@ -1,7 +1,7 @@
 import './style.css';
 import { MarkdownEditor } from './editor/markdownEditor.js';
 import { ViewSwitcher } from './editor/viewSwitcher.js';
-import { saveMarkdown, loadMarkdown } from './app/state.js';
+import { saveMarkdown, loadMarkdown, clearMarkdown } from './app/state.js';
 import { getSampleContent } from './utils/sampleContent.js';
 
 // Initialise editor when DOM is ready
@@ -12,6 +12,7 @@ window.addEventListener('load', () => {
   const loadSampleBtn = document.getElementById('load-sample-btn');
   const printViewBtn = document.getElementById('print-view-btn');
   const editorViewBtn = document.getElementById('editor-view-btn');
+  const clearBtn = document.getElementById('clear-btn');
 
   const editor = new MarkdownEditor(markdownInput, preview, printContent);
   const viewSwitcher = new ViewSwitcher();
@@ -39,6 +40,14 @@ window.addEventListener('load', () => {
 
   editorViewBtn.addEventListener('click', () => {
     viewSwitcher.switchToEditorView();
+  });
+
+  // Clear button
+  clearBtn.addEventListener('click', () => {
+    if (confirm('Clear all content?')) {
+      editor.clear();
+      clearMarkdown();
+    }
   });
 
   function loadSample() {

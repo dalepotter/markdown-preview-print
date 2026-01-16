@@ -1,7 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { MarkdownEditor } from '../../src/editor/markdownEditor.js';
 import { ViewSwitcher } from '../../src/editor/viewSwitcher.js';
 import { getSampleContent } from '../../src/utils/sampleContent.js';
+import { clearMarkdown } from '../../src/app/state.js';
 
 describe('App Integration - Editor', () => {
   beforeEach(() => {
@@ -183,5 +184,59 @@ describe('App Integration - Editor', () => {
     // Navigate again
     printViewBtn.click();
     expect(viewSwitcher.getCurrentView()).toBe('print');
+  });
+
+  it('should clear content when confirmed', () => {
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+    const clearBtn = document.getElementById('clear-btn');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+    editor.setContent('# Some Content');
+
+    // Mock confirm to return true
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+
+    // Wire up button
+    clearBtn.addEventListener('click', () => {
+      if (confirm('Clear all content?')) {
+        editor.clear();
+        clearMarkdown();
+      }
+    });
+
+    // Click clear
+    clearBtn.click();
+
+    expect(editor.getContent()).toBe('');
+    expect(preview.innerHTML).toBe('');
+  });
+
+  it('should not clear content when cancelled', () => {
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+    const clearBtn = document.getElementById('clear-btn');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+    editor.setContent('# Some Content');
+    const originalContent = editor.getContent();
+
+    // Mock confirm to return false
+    vi.spyOn(window, 'confirm').mockReturnValue(false);
+
+    // Wire up button
+    clearBtn.addEventListener('click', () => {
+      if (confirm('Clear all content?')) {
+        editor.clear();
+        clearMarkdown();
+      }
+    });
+
+    // Click clear
+    clearBtn.click();
+
+    expect(editor.getContent()).toBe(originalContent);
   });
 });
