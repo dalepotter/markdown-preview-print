@@ -239,4 +239,27 @@ describe('App Integration - Editor', () => {
 
     expect(editor.getContent()).toBe(originalContent);
   });
+
+  it('should keep preview and print content synchronised', () => {
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+
+    // Change content multiple times
+    editor.setContent('# First');
+    expect(preview.innerHTML).toBe(printContent.innerHTML);
+
+    editor.setContent('# Second');
+    expect(preview.innerHTML).toBe(printContent.innerHTML);
+
+    editor.setContent('**Bold text**');
+    expect(preview.innerHTML).toBe(printContent.innerHTML);
+
+    // Type in input
+    input.value = '# Typed Content';
+    input.dispatchEvent(new Event('input'));
+    expect(preview.innerHTML).toBe(printContent.innerHTML);
+  });
 });
