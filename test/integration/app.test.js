@@ -262,4 +262,118 @@ describe('App Integration - Editor', () => {
     input.dispatchEvent(new Event('input'));
     expect(preview.innerHTML).toBe(printContent.innerHTML);
   });
+
+  it('should handle complex markdown correctly', () => {
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+    const complexMarkdown = `# Heading
+
+## Subheading
+
+This has **bold** and *italic* text.
+
+\`\`\`javascript
+const code = 'block';
+\`\`\`
+
+- List item 1
+- List item 2
+
+> A quote
+
+| Col1 | Col2 |
+|------|------|
+| A    | B    |`;
+
+    editor.setContent(complexMarkdown);
+
+    expect(preview.innerHTML).toContain('<h1');
+    expect(preview.innerHTML).toContain('<h2');
+    expect(preview.innerHTML).toContain('<strong>');
+    expect(preview.innerHTML).toContain('<em>');
+    expect(preview.innerHTML).toContain('<pre>');
+    expect(preview.innerHTML).toContain('<ul>');
+    expect(preview.innerHTML).toContain('<blockquote>');
+    expect(preview.innerHTML).toContain('<table>');
+  });
+
+  it('should handle empty content', () => {
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+
+    editor.setContent('');
+    expect(editor.getContent()).toBe('');
+    expect(preview.innerHTML).toBe('');
+    expect(printContent.innerHTML).toBe('');
+  });
+
+  it('should complete full editing workflow', () => {
+    localStorage.clear();
+
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+    const printViewBtn = document.getElementById('print-view-btn');
+    const editorViewBtn = document.getElementById('editor-view-btn');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+    const viewSwitcher = new ViewSwitcher();
+
+    // Wire up auto-save
+    input.addEventListener('input', () => {
+      localStorage.setItem('markdown-content', editor.getContent());
+    });
+
+    // Wire up view buttons
+    printViewBtn.addEventListener('click', () => viewSwitcher.switchToPrintView());
+    editorViewBtn.addEventListener('click', () => viewSwitcher.switchToEditorView());
+
+    // Type markdown
+    input.value = '# My Document\n\nThis is **bold** text.';
+    input.dispatchEvent(new Event('input'));
+
+    // Check preview rendered
+    expect(preview.innerHTML).toContain('<h1');
+    expect(preview.innerHTML).toContain('My Document');
+    expect(preview.innerHTML).toContain('<strong>bold</strong>');
+
+    // Check saved to localStorage
+    expect(localStorage.getItem('markdown-content')).toBe('# My Document\n\nThis is **bold** text.');
+
+    // Switch to print view
+    printViewBtn.click();
+    expect(viewSwitcher.getCurrentView()).toBe('print');
+    expect(printContent.innerHTML).toBe(preview.innerHTML);
+
+    // Switch back to editor
+    editorViewBtn.click();
+    expect(viewSwitcher.getCurrentView()).toBe('editor');
+  });
+
+  it('should persist content across page reloads', () => {
+    localStorage.clear();
+
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+
+    // First session
+    const editor1 = new MarkdownEditor(input, preview, printContent);
+    editor1.setContent('# Persisted Content');
+    localStorage.setItem('markdown-content', editor1.getContent());
+
+    // Simulate reload - create new editor instance
+    const editor2 = new MarkdownEditor(input, preview, printContent);
+    const saved = localStorage.getItem('markdown-content');
+    editor2.setContent(saved);
+
+    expect(editor2.getContent()).toBe('# Persisted Content');
+    expect(preview.innerHTML).toContain('Persisted Content');
+  });
 });
