@@ -376,4 +376,55 @@ const code = 'block';
     expect(editor2.getContent()).toBe('# Persisted Content');
     expect(preview.innerHTML).toContain('Persisted Content');
   });
+
+  it('should load sample when confirmed', () => {
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+    const loadSampleBtn = document.getElementById('load-sample-btn');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+    editor.setContent('# Existing Content');
+
+    // Mock confirm to return true
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+
+    // Wire up button
+    loadSampleBtn.addEventListener('click', () => {
+      if (confirm('Load sample content? This will replace your current work.')) {
+        const sample = getSampleContent();
+        editor.setContent(sample);
+      }
+    });
+
+    loadSampleBtn.click();
+
+    expect(editor.getContent()).toContain('Welcome to Markdown to Kindle');
+  });
+
+  it('should not load sample when cancelled', () => {
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+    const loadSampleBtn = document.getElementById('load-sample-btn');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+    editor.setContent('# Existing Content');
+    const originalContent = editor.getContent();
+
+    // Mock confirm to return false
+    vi.spyOn(window, 'confirm').mockReturnValue(false);
+
+    // Wire up button
+    loadSampleBtn.addEventListener('click', () => {
+      if (confirm('Load sample content? This will replace your current work.')) {
+        const sample = getSampleContent();
+        editor.setContent(sample);
+      }
+    });
+
+    loadSampleBtn.click();
+
+    expect(editor.getContent()).toBe(originalContent);
+  });
 });

@@ -31,7 +31,11 @@ window.addEventListener('load', () => {
   });
 
   // Load sample button
-  loadSampleBtn.addEventListener('click', loadSample);
+  loadSampleBtn.addEventListener('click', () => {
+    if (confirm('Load sample content? This will replace your current work.')) {
+      loadSample();
+    }
+  });
 
   // View switching buttons
   printViewBtn.addEventListener('click', () => {
