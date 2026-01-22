@@ -427,4 +427,30 @@ const code = 'block';
 
     expect(editor.getContent()).toBe(originalContent);
   });
+
+  it('should update page title when content changes', () => {
+    const input = document.getElementById('markdown-input');
+    const preview = document.getElementById('preview');
+    const printContent = document.getElementById('print-content');
+
+    const editor = new MarkdownEditor(input, preview, printContent);
+
+    // Type heading
+    input.value = '# My Amazing Document';
+    input.dispatchEvent(new Event('input'));
+
+    expect(document.title).toBe('My Amazing Document');
+
+    // Change heading
+    input.value = '# Different Title';
+    input.dispatchEvent(new Event('input'));
+
+    expect(document.title).toBe('Different Title');
+
+    // Remove heading
+    input.value = 'No heading here';
+    input.dispatchEvent(new Event('input'));
+
+    expect(document.title).toBe('Markdown to Kindle');
+  });
 });

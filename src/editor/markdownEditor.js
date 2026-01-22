@@ -28,6 +28,17 @@ export class MarkdownEditor {
     if (this.printElement) {
       this.printElement.innerHTML = html;
     }
+    this.updatePageTitle(markdown);
+  }
+
+  updatePageTitle(markdown) {
+    // Extract first heading (h1) from markdown
+    const h1Match = markdown.match(/^#\s+(.+)$/m);
+    if (h1Match && h1Match[1]) {
+      document.title = h1Match[1].trim();
+    } else {
+      document.title = 'Markdown to Kindle';
+    }
   }
 
   setContent(content) {

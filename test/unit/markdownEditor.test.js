@@ -50,4 +50,27 @@ describe('MarkdownEditor', () => {
     expect(previewElement.innerHTML).toContain('<ul>');
     expect(previewElement.innerHTML).toContain('<li>');
   });
+
+  it('should set page title to first heading', () => {
+    editor.setContent('# My Document\n\nSome content');
+    expect(document.title).toBe('My Document');
+  });
+
+  it('should use default title when no heading present', () => {
+    editor.setContent('Just some text without heading');
+    expect(document.title).toBe('Markdown to Kindle');
+  });
+
+  it('should update title as content changes', () => {
+    editor.setContent('# First Title');
+    expect(document.title).toBe('First Title');
+
+    editor.setContent('# Second Title');
+    expect(document.title).toBe('Second Title');
+  });
+
+  it('should only use first h1 for title', () => {
+    editor.setContent('# First Heading\n\n## Sub heading\n\n# Another H1');
+    expect(document.title).toBe('First Heading');
+  });
 });
